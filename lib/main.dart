@@ -1,8 +1,8 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/painting.dart';
-import 'package:torch_compat/torch_compat.dart';
 import 'switchLigths.dart';
+import 'torchSwitch.dart';
 
 void main() => runApp(MyApp());
 
@@ -41,24 +41,24 @@ class _MyAppState extends State<MyApp> {
             ),
 
           ),
-          body: SwitchLayout(),
+          body: Layout(),
         ),
       ),
     );
   }
 }
 
-class SwitchLayout extends StatefulWidget {
+class Layout extends StatefulWidget {
 
 
   @override
-  _SwitchLayoutState createState() => _SwitchLayoutState();
+  _LayoutState createState() => _LayoutState();
 }
 
-class _SwitchLayoutState extends State<SwitchLayout> {
+class _LayoutState extends State<Layout> {
   SwitchLigths switchLigths = SwitchLigths();
-
-  AnimatedPhysicalModel switchLight({TorchCompat switching}) {
+  TorchSwitch torchSwitch = TorchSwitch();
+  AnimatedPhysicalModel switchLight() {
 
     return AnimatedPhysicalModel(
       elevation: 5.0,
@@ -77,7 +77,7 @@ class _SwitchLayoutState extends State<SwitchLayout> {
           setState(()
           {
             switchLigths.changeState();
-            switchLigths.readState() ? TorchCompat.turnOn() : TorchCompat.turnOff();
+            torchSwitch.buttonPressed(switchLigths.readState());
           }
           );
         },
