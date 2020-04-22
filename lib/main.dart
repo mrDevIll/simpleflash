@@ -1,7 +1,8 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/painting.dart';
 import 'package:torch_compat/torch_compat.dart';
-
+import 'switchLigths.dart';
 
 void main() => runApp(MyApp());
 
@@ -12,14 +13,14 @@ class MyApp extends StatefulWidget {
 
 class _MyAppState extends State<MyApp> {
 
-  bool lightState = false;
+
 
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
       home: SafeArea(
         child: Scaffold(
-          backgroundColor: Colors.black45,
+          backgroundColor: Colors.teal,
           appBar: AppBar(
             centerTitle: true,
             leading: Icon(
@@ -55,32 +56,41 @@ class SwitchLayout extends StatefulWidget {
 }
 
 class _SwitchLayoutState extends State<SwitchLayout> {
-  bool lightState = false;
+  SwitchLigths switchLigths = SwitchLigths();
 
-  RaisedButton switchLight({TorchCompat switching}) {
-    lightState = !lightState;
-    return RaisedButton(
-      color: lightState ? Colors.red : Colors.green,
-      padding: EdgeInsets.all(35.0),
-      shape: CircleBorder(
+  AnimatedPhysicalModel switchLight({TorchCompat switching}) {
+
+    return AnimatedPhysicalModel(
+      elevation: 5.0,
+      shape: BoxShape.circle,
+      color: Colors.white70,
+      shadowColor: Colors.blue,
+      duration: Duration(milliseconds: 300),
+      child: RaisedButton(
+        color: switchLigths.readState()? Colors.red : Colors.green,
+        padding: EdgeInsets.all(35.0),
+        shape: CircleBorder(
+
+        ),
+
+        onPressed: () {
+          setState(()
+          {
+            switchLigths.changeState();
+            switchLigths.readState() ? TorchCompat.turnOn() : TorchCompat.turnOff();
+          }
+          );
+        },
+
+
+        child: Icon(
+          switchLigths.readState() ? Icons.lightbulb_outline : Icons.highlight,
+          color: Colors.white,
+          size: 44.0,
+          semanticLabel: 'light On',
+        ),
 
       ),
-
-      onPressed: () {
-        setState(()
-        { lightState ? TorchCompat.turnOn() : TorchCompat.turnOff();
-        }
-        );
-      },
-
-
-      child: Icon(
-        lightState ? Icons.lightbulb_outline : Icons.highlight,
-        color: Colors.white,
-        size: 44.0,
-        semanticLabel: 'light On',
-      ),
-
     );
 
   }
