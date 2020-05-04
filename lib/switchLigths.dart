@@ -1,9 +1,9 @@
-class SwitchLigths{
-  bool _lightState = false;
+class SwitchLigths {
+  bool _lightState = true;
 
   bool readState() => _lightState;
 
-  void changeState(){
+  void changeState() {
     _lightState = !_lightState;
   }
 }
